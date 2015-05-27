@@ -24,6 +24,14 @@ class YTSCrawler
         rt_audience_score: m['rt_audience_score'],
         rt_audience_rating: m['rt_audience_rating'])
     end
+    m['actors'].each do |actor|
+      a = Artist.find_or_create_by(name: actor['name']) do |artist|
+        artist.portrait = open(actor['medium_image'])
+      end
+      CastMembership.find_or_create_by(movie: movie, artist: a) do |cm|
+        cm.role = actor['character_name']
+      end
+    end
     m['genres'].each do |genre|
       g = Genre.find_or_create_by(name: genre)
       g.movies << movie unless g.movies.include?(movie)

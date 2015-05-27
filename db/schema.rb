@@ -11,10 +11,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150527140333) do
+ActiveRecord::Schema.define(version: 20150527144731) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "artists", force: true do |t|
+    t.string   "name"
+    t.string   "portrait_file_name"
+    t.string   "portrait_content_type"
+    t.integer  "portrait_file_size"
+    t.datetime "portrait_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "cast_memberships", force: true do |t|
+    t.integer  "movie_id"
+    t.integer  "artist_id"
+    t.string   "role"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "cast_memberships", ["artist_id"], name: "index_cast_memberships_on_artist_id", using: :btree
+  add_index "cast_memberships", ["movie_id"], name: "index_cast_memberships_on_movie_id", using: :btree
 
   create_table "genres", force: true do |t|
     t.string   "name"

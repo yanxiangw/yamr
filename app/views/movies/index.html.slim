@@ -22,12 +22,19 @@
             th Year
             th Runtime(minutes)
             th MPA Rating
+            th Actors
         tbody
           - @movies.each do |movie|
             tr
               td = movie.id
-              td = image_tag movie.poster.url
+              td = image_tag movie.poster.url, width: 200
               td = movie.title
               td = movie.year
               td = movie.runtime
               td = movie.mpa_rating
+              td
+                - movie.cast_memberships.each do |cm|
+                  strong = cm.artist.name
+                  |  as 
+                  strong = cm.role
+                  br/
