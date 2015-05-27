@@ -1,0 +1,33 @@
+.container
+  .pure-g
+    .pure-u-1
+      h1 Movies Listing
+
+    .pure-u-1
+      p
+        = link_to new_movie_path, class: 'pure-button pure-button-primary' do
+          i.fa.fa-plus
+          |  Add new Movie
+        = link_to refresh_movies_path, class: 'pure-button'
+          i.fa.fa-refresh
+          |  Refresh
+
+    .pure-u-1
+      table.pure-table.pure-table-striped
+        thead
+          tr
+            th #
+            th Poster
+            th Title
+            th Year
+            th Runtime(minutes)
+            th MPA Rating
+        tbody
+          - @movies.each do |movie|
+            tr
+              td = movie.id
+              td = image_tag movie.poster.url
+              td = movie.title
+              td = movie.year
+              td = movie.runtime
+              td = movie.mpa_rating
