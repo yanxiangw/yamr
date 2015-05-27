@@ -11,10 +11,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150525094435) do
+ActiveRecord::Schema.define(version: 20150527125827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "genres", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "genres_movies", id: false, force: true do |t|
+    t.integer "genre_id"
+    t.integer "movie_id"
+  end
+
+  add_index "genres_movies", ["genre_id", "movie_id"], name: "genres_movies_index", using: :btree
+
+  create_table "languages", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "languages_movies", id: false, force: true do |t|
+    t.integer "language_id"
+    t.integer "movie_id"
+  end
+
+  add_index "languages_movies", ["language_id", "movie_id"], name: "languages_movies_index", using: :btree
 
   create_table "movies", force: true do |t|
     t.string   "imdb_code"
@@ -28,6 +54,8 @@ ActiveRecord::Schema.define(version: 20150525094435) do
     t.datetime "poster_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "intro"
+    t.text     "plot"
   end
 
 end
