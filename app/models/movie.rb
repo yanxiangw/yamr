@@ -1,5 +1,6 @@
 class Movie < ActiveRecord::Base
 
+  has_one :movie_rating
   has_and_belongs_to_many :genres
   has_and_belongs_to_many :languages
 

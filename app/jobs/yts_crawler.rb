@@ -16,6 +16,13 @@ class YTSCrawler
       movie.poster = open(m['images']['large_cover_image'])
       movie.intro = m['description_intro']
       movie.plot = m['description_full']
+      MovieRating.create(
+        movie: movie,
+        imdb_rating: m['rating'],
+        rt_critics_score: m['rt_critics_score'],
+        rt_critics_rating: m['rt_critics_rating'],
+        rt_audience_score: m['rt_audience_score'],
+        rt_audience_rating: m['rt_audience_rating'])
     end
     m['genres'].each do |genre|
       g = Genre.find_or_create_by(name: genre)
