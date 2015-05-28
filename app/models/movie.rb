@@ -4,6 +4,7 @@ class Movie < ActiveRecord::Base
   has_and_belongs_to_many :genres
   has_and_belongs_to_many :languages
   has_many :cast_memberships
+  has_many :associations
   has_many :casts, through: :cast_memberships, class_name: 'Artist', source: :artist
 
   has_attached_file :poster, default_url: '/images/:style/missing.png'

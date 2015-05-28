@@ -1,5 +1,6 @@
 class Artist < ActiveRecord::Base
   has_many :cast_memberships
+  has_many :associations
   has_many :movies, through: :cast_memberships
 
   has_attached_file :portrait, default_url: '/images/:style/missing.png'
