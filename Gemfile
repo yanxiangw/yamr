@@ -13,6 +13,7 @@ gem 'purecss-rails'
 # middle layer
 # gem 'jbuilder', '~> 2.0'
 gem 'paperclip'
+gem 'friendly_id'
 
 # database
 gem 'pg'

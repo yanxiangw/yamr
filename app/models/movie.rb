@@ -1,4 +1,5 @@
 class Movie < ActiveRecord::Base
+  extend FriendlyId
 
   has_one :movie_rating
   has_and_belongs_to_many :genres
@@ -9,4 +10,13 @@ class Movie < ActiveRecord::Base
 
   has_attached_file :poster, default_url: '/images/:style/missing.png'
   validates_attachment_content_type :poster, content_type: /\Aimage\/.*\Z/
+
+  friendly_id :slug_candidates, use: :slugged
+
+  def slug_candidates
+    [
+      :title,
+      [:title, :year]
+    ]
+  end
 end

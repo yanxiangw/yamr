@@ -53,7 +53,7 @@ class YTSCrawler
 
   def self.save_movie(m)
     puts "Saving movie #{m['title']} into database..."
-    movie = Movie.find_or_create_by(imdb_code: m['imdb_code']) do |movie|
+    movie = Movie.find_or_create_by!(imdb_code: m['imdb_code']) do |movie|
       movie.title = m['title']
       movie.year = m['year']
       movie.runtime = m['runtime']
@@ -61,8 +61,8 @@ class YTSCrawler
       movie.poster = open(m['images']['large_cover_image'])
       movie.intro = m['description_intro']
       movie.plot = m['description_full']
-      save_ratings(m, movie)
     end
+    save_ratings(m, movie)
     save_artists(m, movie)
     save_genres(m, movie)
     save_languages(m, movie)
