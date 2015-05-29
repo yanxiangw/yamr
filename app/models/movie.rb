@@ -13,6 +13,7 @@ class Movie < ActiveRecord::Base
 
   friendly_id :slug_candidates, use: :slugged
 
+  paginates_per 10
   def slug_candidates
     [
       :title,

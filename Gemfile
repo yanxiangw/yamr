@@ -14,6 +14,7 @@ gem 'purecss-rails'
 # gem 'jbuilder', '~> 2.0'
 gem 'paperclip'
 gem 'friendly_id'
+gem 'kaminari'
 
 # database
 gem 'pg'
