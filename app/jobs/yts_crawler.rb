@@ -21,7 +21,7 @@ class YTSCrawler
     puts "\tSaving artists for #{movie.title}"
     m['actors'].each do |actor|
       a = Artist.find_or_create_by(name: actor['name']) do |artist|
-        artist.portrait = open(actor['medium_image'])
+        artist.portrait_url = actor['medium_image']
       end
       CastMembership.find_or_create_by(movie: movie, artist: a) do |cm|
         cm.role = actor['character_name']
@@ -29,7 +29,7 @@ class YTSCrawler
     end
     m['directors'].each do |director|
       d = Artist.find_or_create_by(name: director['name']) do |artist|
-        artist.portrait = open(director['medium_image'])
+        artist.portrait_url = director['medium_image']
       end
       Association.find_or_create_by(movie: movie, artist: d) do |assoc|
         assoc.director!
@@ -58,11 +58,12 @@ class YTSCrawler
       movie.year = m['year']
       movie.runtime = m['runtime']
       movie.mpa_rating = m['mpa_rating']
-      movie.poster = open(m['images']['large_cover_image'])
+      movie.poster_url = m['images']['large_cover_image']
       movie.intro = m['description_intro']
       movie.plot = m['description_full']
+      movie.youtube_video_id = m['yt_trailer_code']
+      save_ratings(m, movie)
     end
-    save_ratings(m, movie)
     save_artists(m, movie)
     save_genres(m, movie)
     save_languages(m, movie)
@@ -85,15 +86,17 @@ class YTSCrawler
 
   def self.perform
     puts 'Start YTS Crawler'
-    uri = URI::HTTPS.build(
-      host: HOST,
-      path: MOVIE_LIST_PATH,
-      query: {
-        page: 1,
-        limit: 10
-        }.to_query
-      ).to_s
-    save_movies_from_uri(uri)
+    (1..83).each do |page|
+      uri = URI::HTTPS.build(
+        host: HOST,
+        path: MOVIE_LIST_PATH,
+        query: {
+          page: page,
+          limit: 50
+          }.to_query
+        ).to_s
+      save_movies_from_uri(uri)
+    end
     puts 'YTS Crawler done!'
   end
 end

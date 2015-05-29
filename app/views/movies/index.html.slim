@@ -27,14 +27,14 @@
           - @movies.each do |movie|
             tr
               td = movie.id
-              td = image_tag movie.poster.url, width: 200
+              td = image_tag movie.poster_url, width: 200
               td = movie.title
               td = movie.year
               td = movie.runtime
               td = movie.mpa_rating
               td
                 - movie.cast_memberships.each do |cm|
-                  = image_tag cm.artist.portrait.url, width: 50
+                  = image_tag cm.artist.portrait_url, width: 50
                   strong = cm.artist.name
                   |  as 
                   strong = cm.role

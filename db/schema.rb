@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150528112934) do
+ActiveRecord::Schema.define(version: 20150529100936) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,7 +25,11 @@ ActiveRecord::Schema.define(version: 20150528112934) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "slug"
+    t.string   "portrait_url"
   end
+
+  add_index "artists", ["name"], name: "artists_name_index", using: :btree
+  add_index "artists", ["slug"], name: "artists_slug_index", using: :btree
 
   create_table "associations", force: true do |t|
     t.integer  "movie_id"
@@ -36,6 +40,7 @@ ActiveRecord::Schema.define(version: 20150528112934) do
   end
 
   add_index "associations", ["artist_id"], name: "index_associations_on_artist_id", using: :btree
+  add_index "associations", ["kind"], name: "associations_kind_index", using: :btree
   add_index "associations", ["movie_id"], name: "index_associations_on_movie_id", using: :btree
 
   create_table "cast_memberships", force: true do |t|
@@ -48,12 +53,15 @@ ActiveRecord::Schema.define(version: 20150528112934) do
 
   add_index "cast_memberships", ["artist_id"], name: "index_cast_memberships_on_artist_id", using: :btree
   add_index "cast_memberships", ["movie_id"], name: "index_cast_memberships_on_movie_id", using: :btree
+  add_index "cast_memberships", ["role"], name: "cast_memberships_role_index", using: :btree
 
   create_table "genres", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "genres", ["name"], name: "genres_name_index", using: :btree
 
   create_table "genres_movies", id: false, force: true do |t|
     t.integer "genre_id"
@@ -67,6 +75,8 @@ ActiveRecord::Schema.define(version: 20150528112934) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "languages", ["name"], name: "languages_name_index", using: :btree
 
   create_table "languages_movies", id: false, force: true do |t|
     t.integer "language_id"
@@ -86,7 +96,9 @@ ActiveRecord::Schema.define(version: 20150528112934) do
     t.datetime "updated_at"
   end
 
+  add_index "movie_ratings", ["imdb_rating"], name: "movie_ratings_imdb_index", using: :btree
   add_index "movie_ratings", ["movie_id"], name: "index_movie_ratings_on_movie_id", using: :btree
+  add_index "movie_ratings", ["rt_critics_score", "rt_critics_rating", "rt_audience_score", "rt_audience_rating"], name: "movie_ratings_rt_index", using: :btree
 
   create_table "movies", force: true do |t|
     t.string   "imdb_code"
@@ -103,6 +115,15 @@ ActiveRecord::Schema.define(version: 20150528112934) do
     t.text     "intro"
     t.text     "plot"
     t.string   "slug"
+    t.string   "poster_url"
+    t.string   "youtube_video_id"
   end
+
+  add_index "movies", ["imdb_code"], name: "movies_imdb_code_index", using: :btree
+  add_index "movies", ["mpa_rating"], name: "movies_mpa_rating_index", using: :btree
+  add_index "movies", ["runtime"], name: "movies_runtime_index", using: :btree
+  add_index "movies", ["slug"], name: "movies_slug_index", using: :btree
+  add_index "movies", ["title"], name: "movies_title_index", using: :btree
+  add_index "movies", ["year"], name: "movies_year_index", using: :btree
 
 end
