@@ -24,8 +24,12 @@ gem 'devise'
 gem 'omniauth'
 
 # worker
+gem 'foreman'
 gem 'resque'
 
+group :production do
+  gem 'unicorn'
+end
 # Use unicorn as the app server
 # gem 'unicorn'
 # gem 'uglifier', '>= 1.3.0'
